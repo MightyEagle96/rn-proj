@@ -5,8 +5,10 @@ import {
   Button,
   TextInput,
   ScrollView,
+  FlatList,
 } from "react-native";
 import { useState } from "react";
+import GoalItem from "./components/GoalItem";
 
 export default function App() {
   const [todos, setTodos] = useState([]);
@@ -21,7 +23,7 @@ export default function App() {
       ...oldArray,
       { todo: data, date: new Date().toTimeString() },
     ]);
-    setTodo("");
+    // setTodo("");
   };
 
   return (
@@ -47,18 +49,18 @@ export default function App() {
         Your Goals List
       </Text>
       <View style={styles.goalsContainer}>
-        {todos.map((c, i) => (
-          <View key={i} style={styles.goalItem}>
-            <Text style={{ color: "white" }}>{c.todo}</Text>
-          </View>
-        ))}
+        <FlatList
+          data={todos}
+          renderItem={(itemData) => {
+            return <GoalItem itemData={itemData} />;
+          }}
+        />
       </View>
+
       {todos.length > 0 ? (
         <View
           style={{
-            marginBottom: 40,
-            marginTop: 20,
-            flex: 1,
+            marginBottom: 20,
             justifyContent: "center",
             alignItems: "center",
           }}
@@ -84,12 +86,13 @@ const styles = StyleSheet.create({
   },
   appContainer: { padding: 20, marginTop: 30, flex: 1 },
 
-  goalsContainer: { flex: 3 },
+  goalsContainer: { flex: 5 },
   inputContainer: {
-    flex: 1,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    marginBottom: 10,
+    flex: 1,
   },
 
   todoItem: {
@@ -97,14 +100,5 @@ const styles = StyleSheet.create({
     borderBottomWidth: 0.6,
     padding: 8,
     borderBottomColor: "#e0e0e0",
-  },
-
-  goalItem: {
-    marginBottom: 8,
-    backgroundColor: "#2979ff",
-    padding: 9,
-
-    borderRadius: 10,
-    fontSize: 18,
   },
 });
