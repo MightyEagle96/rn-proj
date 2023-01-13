@@ -35,33 +35,21 @@ export default function App() {
         />
         <Button title="Add Goal" onPress={() => addTodo(todo)} />
       </View>
+      <Text
+        style={{
+          fontSize: 20,
+          marginBottom: 15,
+          fontWeight: "900",
+          color: "#039be5",
+          textAlign: "center",
+        }}
+      >
+        Your Goals List
+      </Text>
       <View style={styles.goalsContainer}>
-        <Text
-          style={{
-            fontSize: 20,
-            fontWeight: "900",
-            color: "#039be5",
-            textAlign: "center",
-          }}
-        >
-          YOUR GOALS LIST.
-        </Text>
         {todos.map((c, i) => (
-          <View key={i} style={styles.todoItem}>
-            <Text style={{ fontSize: 35, fontWeight: "800", color: "#bdbdbd" }}>
-              {i + 1}.
-            </Text>
-            <Text style={{ color: "#212121", fontSize: 24 }}>{c.todo}</Text>
-            <Text
-              style={{
-                textAlign: "right",
-                color: "#f06292",
-                fontStyle: "italic",
-              }}
-            >
-              {" "}
-              {c.date}
-            </Text>
+          <View key={i} style={styles.goalItem}>
+            <Text style={{ color: "white" }}>{c.todo}</Text>
           </View>
         ))}
       </View>
@@ -96,7 +84,7 @@ const styles = StyleSheet.create({
   },
   appContainer: { padding: 20, marginTop: 30, flex: 1 },
 
-  goalsContainer: { marginTop: 10, flex: 3 },
+  goalsContainer: { flex: 3 },
   inputContainer: {
     flex: 1,
     flexDirection: "row",
@@ -109,5 +97,14 @@ const styles = StyleSheet.create({
     borderBottomWidth: 0.6,
     padding: 8,
     borderBottomColor: "#e0e0e0",
+  },
+
+  goalItem: {
+    marginBottom: 8,
+    backgroundColor: "#2979ff",
+    padding: 9,
+
+    borderRadius: 10,
+    fontSize: 18,
   },
 });
