@@ -26,7 +26,7 @@ function EmployeeItem({ data, navigation }) {
 export default EmployeeItem;
 
 const styles = StyleSheet.create({
-  avatar: { height: 100, width: 100, borderRadius: 50 },
+  avatar: { height: 80, width: 80, borderRadius: 50 },
 
   employeeView: {
     //paddingHorizontal: 10,
