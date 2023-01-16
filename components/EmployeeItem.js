@@ -1,12 +1,13 @@
 import React from "react";
 import { View, Text, Image, StyleSheet, Pressable } from "react-native";
 
-function EmployeeItem({ data }) {
+function EmployeeItem({ data, navigation }) {
   return (
     <View style={styles.employeeView}>
       <Pressable
         style={{ flexDirection: "row", alignItems: "center", padding: 10 }}
         android_ripple={{ color: "#bdbdbd" }}
+        onPress={() => navigation.navigate("Employee", data.item)}
       >
         <View>
           <Image source={{ uri: data.item.avatar }} style={styles.avatar} />
