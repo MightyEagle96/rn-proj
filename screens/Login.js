@@ -6,10 +6,20 @@ import {
   Button,
   ActivityIndicator,
 } from "react-native";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { httpService } from "../services/httpService";
 
 function LoginScreen() {
-  //console.log(route);
+  const [loginData, setLoginData] = useState({});
+  const [loading, setLoading] = useState(false);
+
+  const login = async () => {
+    setLoading(true);
+    const res = await httpService.post("login", loginData);
+
+    if (res) console.log(res);
+    setLoading(false);
+  };
 
   return (
     <View style={styles.loginView}>
@@ -18,15 +28,21 @@ function LoginScreen() {
           style={styles.textInput}
           placeholder="Email"
           inputMode="email"
+          onChangeText={(e) => setLoginData({ ...loginData, emailAddress: e })}
         />
         <TextInput
           style={styles.textInput}
           placeholder="Password"
           type="password"
           secureTextEntry={true}
+          onChangeText={(e) => setLoginData({ ...loginData, password: e })}
         />
-        <Button title="Login" />
-        <ActivityIndicator />
+        {loading ? (
+          <ActivityIndicator />
+        ) : (
+          <Button title="Login" onPress={login} />
+        )}
+        {/* <ActivityIndicator /> */}
       </View>
     </View>
   );
