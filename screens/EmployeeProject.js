@@ -1,4 +1,4 @@
-import { View, Text, Button, FlatList } from "react-native";
+import { View, Text, Image, FlatList, StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { employees } from "../data/employees";
@@ -26,8 +26,11 @@ function EmployeeScreen({ route, navigation }) {
     navigation.setOptions({ title: data.name });
   });
   return (
-    <View>
-      <Text>{data.name}</Text>
+    <View style={{ flex: 1 }}>
+      <View style={styles.imgAvatar}>
+        <Image source={{ uri: data.avatar }} style={styles.avatar} />
+      </View>
+      <View></View>
     </View>
   );
 }
@@ -62,4 +65,9 @@ function MyNavigation() {
   );
 }
 
+const styles = StyleSheet.create({
+  avatar: { height: 200, width: 200, borderRadius: 100 },
+
+  imgAvatar: { justifyContent: "center", alignItems: "center", padding: 20 },
+});
 export default MyNavigation;
