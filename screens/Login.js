@@ -5,10 +5,10 @@ import {
   TextInput,
   Button,
   ActivityIndicator,
+  Platform,
 } from "react-native";
 import { useEffect, useState } from "react";
-//import SnackBar from "react-native-snackbar-component";
-import { Snackbar } from "@react-native-material/core";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { httpService } from "../services/httpService";
 import { ErrorAlerts } from "../components/MyAlerts";
 
@@ -19,7 +19,7 @@ function LoginScreen() {
 
   const login = async () => {
     setLoading(true);
-    const res = await httpService.post("login", loginData);
+    const res = await httpService.post("mobile-login", loginData);
     if (res) {
       if (res.type === "error") {
         setMessage(res.message);
@@ -28,7 +28,8 @@ function LoginScreen() {
           setMessage(null);
         }, 5000);
       }
-      console.log(res);
+
+      if (res.data) console.log(res.data);
     }
     setLoading(false);
   };
@@ -36,8 +37,17 @@ function LoginScreen() {
   return (
     <View style={styles.loginView}>
       <View style={styles.loginBox}>
-        <View>
-          <Text>Login into your account</Text>
+        <View style={{ marginBottom: 50 }}>
+          <Text
+            style={{
+              color: "#2196f3",
+              fontSize: 24,
+              fontWeight: "600",
+              alignContent: "center",
+            }}
+          >
+            Login into your account
+          </Text>
         </View>
         <TextInput
           style={styles.textInput}
