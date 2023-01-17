@@ -7,16 +7,18 @@ import {
   ActivityIndicator,
   Platform,
 } from "react-native";
-import { useEffect, useState } from "react";
+import { useState, useContext } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { httpService } from "../services/httpService";
 import { ErrorAlerts } from "../components/MyAlerts";
+import { LoginContext } from "../contexts/LoginContext";
 
-function LoginScreen() {
+function LoginScreen({ navigation }) {
   const [loginData, setLoginData] = useState({});
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState(null);
 
+  const { setToken } = useContext(LoginContext);
   const login = async () => {
     setLoading(true);
     const res = await httpService.post("mobile-login", loginData);
@@ -29,9 +31,17 @@ function LoginScreen() {
         }, 5000);
       }
 
-      if (res.data) console.log(res.data);
-    }
-    setLoading(false);
+      if (res.data) {
+        setToken(res.data.accessToken);
+        await AsyncStorage.setItem("token", res.data.accessToken);
+        await AsyncStorage.setItem(
+          "userData",
+          JSON.stringify(res.data.account)
+        );
+        navigation.navigate("Home");
+      }
+      setLoading(false);
+    } else setLoading(false);
   };
 
   return (
@@ -85,7 +95,7 @@ function LoginScreen() {
 export default LoginScreen;
 
 const styles = StyleSheet.create({
-  loginView: { flex: 1, justifyContent: "center" },
+  loginView: { justifyContent: "center" },
   loginBox: { paddingHorizontal: 20 },
 
   buttonContainer: { alignItems: "center" },
