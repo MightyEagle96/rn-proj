@@ -58,56 +58,55 @@ function LoginScreen({ navigation }) {
     >
       <View style={styles.loginView}>
         <View style={styles.loginBox}>
-          <ScrollView>
-            <View style={{ marginBottom: 20 }}>
-              <Text
-                style={{
-                  color: "#2196f3",
-                  fontSize: 24,
-                  fontWeight: "600",
-                  alignContent: "center",
-                }}
-              >
-                Login into your account
-              </Text>
-            </View>
-            <TextInput
-              style={styles.textInput}
-              placeholder="Email"
-              inputMode="email"
-              onChangeText={(e) =>
-                setLoginData({ ...loginData, emailAddress: e })
-              }
-            />
-            <TextInput
-              style={styles.textInput}
-              placeholder="Password"
-              type="password"
-              secureTextEntry={true}
-              onChangeText={(e) => setLoginData({ ...loginData, password: e })}
-            />
-            <TextInput
-              style={styles.textInput}
-              placeholder="Password"
-              type="password"
-              secureTextEntry={true}
-              onChangeText={(e) => setLoginData({ ...loginData, password: e })}
-            />
-            <View style={styles.buttonContainer}>
-              <View style={styles.buttonView}>
-                <View style={{ marginRight: 10 }}>
-                  {loading ? (
-                    <ActivityIndicator />
-                  ) : (
-                    <Button title="Login" onPress={login} />
-                  )}
-                </View>
-                <View>
-                  <Button title="Cancel" onPress={login} color="#f73378" />
-                </View>
+          <View style={{ marginBottom: 20 }}>
+            <Text
+              style={{
+                color: "#2196f3",
+                fontSize: 24,
+                fontWeight: "600",
+                alignContent: "center",
+              }}
+            >
+              Login into your account
+            </Text>
+          </View>
+          <TextInput
+            style={styles.textInput}
+            placeholder="Email"
+            inputMode="email"
+            onChangeText={(e) =>
+              setLoginData({ ...loginData, emailAddress: e })
+            }
+          />
+          <TextInput
+            style={styles.textInput}
+            placeholder="Password"
+            type="password"
+            secureTextEntry={true}
+            onChangeText={(e) => setLoginData({ ...loginData, password: e })}
+          />
+          <TextInput
+            style={styles.textInput}
+            placeholder="Password"
+            type="password"
+            secureTextEntry={true}
+            onChangeText={(e) => setLoginData({ ...loginData, password: e })}
+          />
+          <View style={styles.buttonContainer}>
+            <View style={styles.buttonView}>
+              <View style={{ marginRight: 10 }}>
+                {loading ? (
+                  <ActivityIndicator />
+                ) : (
+                  <Button title="Login" onPress={login} />
+                )}
+              </View>
+              <View>
+                <Button title="Cancel" onPress={login} color="#f73378" />
               </View>
             </View>
-          </ScrollView>
+          </View>
+
           {message ? <ErrorAlerts message={message} /> : null}
         </View>
       </View>
