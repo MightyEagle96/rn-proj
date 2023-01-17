@@ -5,7 +5,9 @@ import {
   TextInput,
   Button,
   ActivityIndicator,
+  KeyboardAvoidingView,
   Platform,
+  ScrollView,
 } from "react-native";
 import { useState, useContext } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -20,83 +22,104 @@ function LoginScreen({ navigation }) {
 
   const { setToken } = useContext(LoginContext);
   const login = async () => {
-    setLoading(true);
-    const res = await httpService.post("mobile-login", loginData);
-    if (res) {
-      if (res.type === "error") {
-        setMessage(res.message);
+    if (loginData.emailAddress && loginData.password) {
+      setLoading(true);
+      const res = await httpService.post("mobile-login", loginData);
+      if (res) {
+        if (res.type === "error") {
+          setMessage(res.message);
 
-        setTimeout(() => {
-          setMessage(null);
-        }, 5000);
-      }
+          setTimeout(() => {
+            setMessage(null);
+          }, 5000);
+        }
 
-      if (res.data) {
-        setToken(res.data.accessToken);
-        await AsyncStorage.setItem("token", res.data.accessToken);
-        await AsyncStorage.setItem(
-          "userData",
-          JSON.stringify(res.data.account)
-        );
-        navigation.navigate("Home");
-      }
-      setLoading(false);
-    } else setLoading(false);
+        if (res.data) {
+          setToken(res.data.accessToken);
+          await AsyncStorage.setItem("token", res.data.accessToken);
+          await AsyncStorage.setItem(
+            "userData",
+            JSON.stringify(res.data.account)
+          );
+          navigation.navigate("Home");
+        }
+        setLoading(false);
+      } else setLoading(false);
+    } else {
+      alert("Please flll in both fields");
+    }
   };
 
   return (
-    <View style={styles.loginView}>
-      <View style={styles.loginBox}>
-        <View style={{ marginBottom: 50 }}>
-          <Text
-            style={{
-              color: "#2196f3",
-              fontSize: 24,
-              fontWeight: "600",
-              alignContent: "center",
-            }}
-          >
-            Login into your account
-          </Text>
-        </View>
-        <TextInput
-          style={styles.textInput}
-          placeholder="Email"
-          inputMode="email"
-          onChangeText={(e) => setLoginData({ ...loginData, emailAddress: e })}
-        />
-        <TextInput
-          style={styles.textInput}
-          placeholder="Password"
-          type="password"
-          secureTextEntry={true}
-          onChangeText={(e) => setLoginData({ ...loginData, password: e })}
-        />
-        <View style={styles.buttonContainer}>
-          <View style={styles.buttonView}>
-            <View style={{ marginRight: 10 }}>
-              {loading ? (
-                <ActivityIndicator />
-              ) : (
-                <Button title="Login" onPress={login} />
-              )}
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      //  behavior="padding"
+      style={styles.container}
+    >
+      <View style={styles.loginView}>
+        <View style={styles.loginBox}>
+          <ScrollView>
+            <View style={{ marginBottom: 20 }}>
+              <Text
+                style={{
+                  color: "#2196f3",
+                  fontSize: 24,
+                  fontWeight: "600",
+                  alignContent: "center",
+                }}
+              >
+                Login into your account
+              </Text>
             </View>
-            <View>
-              <Button title="Cancel" onPress={login} color="#f73378" />
+            <TextInput
+              style={styles.textInput}
+              placeholder="Email"
+              inputMode="email"
+              onChangeText={(e) =>
+                setLoginData({ ...loginData, emailAddress: e })
+              }
+            />
+            <TextInput
+              style={styles.textInput}
+              placeholder="Password"
+              type="password"
+              secureTextEntry={true}
+              onChangeText={(e) => setLoginData({ ...loginData, password: e })}
+            />
+            <TextInput
+              style={styles.textInput}
+              placeholder="Password"
+              type="password"
+              secureTextEntry={true}
+              onChangeText={(e) => setLoginData({ ...loginData, password: e })}
+            />
+            <View style={styles.buttonContainer}>
+              <View style={styles.buttonView}>
+                <View style={{ marginRight: 10 }}>
+                  {loading ? (
+                    <ActivityIndicator />
+                  ) : (
+                    <Button title="Login" onPress={login} />
+                  )}
+                </View>
+                <View>
+                  <Button title="Cancel" onPress={login} color="#f73378" />
+                </View>
+              </View>
             </View>
-          </View>
+          </ScrollView>
+          {message ? <ErrorAlerts message={message} /> : null}
         </View>
-        {message ? <ErrorAlerts message={message} /> : null}
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 
 export default LoginScreen;
 
 const styles = StyleSheet.create({
-  loginView: { justifyContent: "center" },
-  loginBox: { paddingHorizontal: 20 },
+  loginView: { height: "100%", justifyContent: "center", marginBottom: 40 },
+  loginBox: { paddingHorizontal: 20, justifyContent: "center" },
 
   buttonContainer: { alignItems: "center" },
   buttonView: {
@@ -110,4 +133,5 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginBottom: 20,
   },
+  container: { flex: 1 },
 });
