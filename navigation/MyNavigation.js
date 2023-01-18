@@ -1,25 +1,21 @@
+import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import {
-  DrawerLayoutAndroid,
-  Platform,
-  StyleSheet,
-  View,
-  Text,
-} from "react-native";
-import LoginScreen from "../screens/Login";
-import SignUpScreen from "../screens/SignUp";
+import { createDrawerNavigator } from "@react-navigation/drawer";
+
+import { StyleSheet } from "react-native";
+
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import HomeScreen from "../screens/HomePage";
-import { useState, useEffect, useRef } from "react";
+
+import { useState, useEffect } from "react";
 
 import { LoginContext } from "../contexts/LoginContext";
-import { IconButton, Button } from "@react-native-material/core";
-import Icon from "@expo/vector-icons/MaterialCommunityIcons";
 
-const screens = [{ name: "Home", component: HomeScreen }];
+import { AllScreens, AuthScreens } from "../screens/AllScreens";
 
 const Stack = createNativeStackNavigator();
+
+const Drawer = createDrawerNavigator();
 
 function MyNavigation() {
   const [token, setToken] = useState(null);
@@ -32,102 +28,22 @@ function MyNavigation() {
   useEffect(() => {
     getToken();
   }, []);
-  const drawer = useRef(null);
-  const [drawerPosition] = useState("left");
 
-  const navigationView = () => (
-    <View style={[styles.container, styles.navigationContainer]}>
-      <Text style={styles.paragraph}>Hello</Text>
-      <Button
-        title="Close drawer"
-        onPress={() => drawer.current.closeDrawer()}
-      />
-    </View>
-  );
   return (
     <LoginContext.Provider value={{ token, setToken }}>
-      {Platform.OS === "android" ? (
-        <DrawerLayoutAndroid
-          ref={drawer}
-          drawerWidth={300}
-          drawerPosition={drawerPosition}
-          renderNavigationView={navigationView}
-        >
-          <NavigationContainer>
-            <Stack.Navigator>
-              {token ? (
-                <>
-                  {screens.map((c, i) => (
-                    <Stack.Screen
-                      key={i}
-                      name={c.name}
-                      options={{
-                        headerLeft: () => {
-                          return Platform.OS === "android" ? (
-                            <IconButton
-                              onPress={() => drawer.current.openDrawer()}
-                              icon={() => (
-                                <Icon style={{ fontSize: 23 }} name="menu" />
-                              )}
-                            />
-                          ) : null;
-                        },
-                      }}
-                    >
-                      {(props) => <c.component {...props} />}
-                    </Stack.Screen>
-                  ))}
-                </>
-              ) : (
-                <>
-                  <Stack.Screen name="Login">
-                    {(props) => <LoginScreen {...props} setToken={setToken} />}
-                  </Stack.Screen>
-                  <Stack.Screen name="Sign Up">
-                    {(props) => <SignUpScreen {...props} setToken={setToken} />}
-                  </Stack.Screen>
-                </>
-              )}
-            </Stack.Navigator>
-          </NavigationContainer>
-        </DrawerLayoutAndroid>
+      {token ? (
+        <NavigationContainer>
+          <Drawer.Navigator initialRouteName="Home">
+            {AllScreens.map((c, i) => (
+              <Drawer.Screen name={c.name} component={c.component} key={i} />
+            ))}
+          </Drawer.Navigator>
+        </NavigationContainer>
       ) : (
         <NavigationContainer>
-          <Stack.Navigator>
-            {token ? (
-              <>
-                {screens.map((c, i) => (
-                  <Stack.Screen
-                    key={i}
-                    name={c.name}
-                    options={{
-                      headerLeft: () => {
-                        return Platform.OS === "android" ? (
-                          <IconButton
-                            onPress={() => drawer.current.openDrawer()}
-                            icon={() => (
-                              <Icon style={{ fontSize: 23 }} name="menu" />
-                            )}
-                          />
-                        ) : null;
-                      },
-                    }}
-                  >
-                    {(props) => <c.component {...props} />}
-                  </Stack.Screen>
-                ))}
-              </>
-            ) : (
-              <>
-                <Stack.Screen name="Login">
-                  {(props) => <LoginScreen {...props} setToken={setToken} />}
-                </Stack.Screen>
-                <Stack.Screen name="Sign Up">
-                  {(props) => <SignUpScreen {...props} setToken={setToken} />}
-                </Stack.Screen>
-              </>
-            )}
-          </Stack.Navigator>
+          {AuthScreens.map((c, i) => (
+            <Stack.Screen component={c.component} name={c.name} key={i} />
+          ))}
         </NavigationContainer>
       )}
     </LoginContext.Provider>
@@ -139,9 +55,9 @@ export default MyNavigation;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 16,
+    // alignItems: "center",
+    // justifyContent: "center",
+    // padding: 16,
   },
   navigationContainer: {
     backgroundColor: "#ecf0f1",
