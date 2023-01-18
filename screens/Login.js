@@ -7,7 +7,6 @@ import {
   ActivityIndicator,
   KeyboardAvoidingView,
   Platform,
-  ScrollView,
 } from "react-native";
 import { useState, useContext } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -53,7 +52,6 @@ function LoginScreen({ navigation }) {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
-      //  behavior="padding"
       style={styles.container}
     >
       <View style={styles.loginView}>
@@ -85,13 +83,7 @@ function LoginScreen({ navigation }) {
             secureTextEntry={true}
             onChangeText={(e) => setLoginData({ ...loginData, password: e })}
           />
-          <TextInput
-            style={styles.textInput}
-            placeholder="Password"
-            type="password"
-            secureTextEntry={true}
-            onChangeText={(e) => setLoginData({ ...loginData, password: e })}
-          />
+
           <View style={styles.buttonContainer}>
             <View style={styles.buttonView}>
               <View style={{ marginRight: 10 }}>
@@ -107,6 +99,22 @@ function LoginScreen({ navigation }) {
             </View>
           </View>
 
+          <View
+            style={{
+              marginBottom: 10,
+              flexDirection: "row",
+              alignItems: "center",
+            }}
+          >
+            <View style={{ marginRight: 10 }}>
+              <Text>Don't have an account?</Text>
+            </View>
+
+            <Button
+              title="Sign Up"
+              onPress={() => navigation.navigate("Sign Up")}
+            />
+          </View>
           {message ? <ErrorAlerts message={message} /> : null}
         </View>
       </View>
@@ -120,7 +128,7 @@ const styles = StyleSheet.create({
   loginView: { height: "100%", justifyContent: "center", marginBottom: 40 },
   loginBox: { paddingHorizontal: 20, justifyContent: "center" },
 
-  buttonContainer: { alignItems: "center" },
+  buttonContainer: { alignItems: "center", marginBottom: 30 },
   buttonView: {
     flexDirection: "row",
   },

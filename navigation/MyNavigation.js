@@ -35,11 +35,7 @@ function MyNavigation() {
           {token ? (
             <>
               {screens.map((c, i) => (
-                <Stack.Screen
-                  key={i}
-                  name={c.name}
-                  // options={{ headerTransparent: true }}
-                >
+                <Stack.Screen key={i} name={c.name}>
                   {(props) => <c.component {...props} />}
                 </Stack.Screen>
               ))}
@@ -48,6 +44,9 @@ function MyNavigation() {
             <>
               <Stack.Screen name="Login">
                 {(props) => <LoginScreen {...props} setToken={setToken} />}
+              </Stack.Screen>
+              <Stack.Screen name="Sign Up">
+                {(props) => <SignUpScreen {...props} setToken={setToken} />}
               </Stack.Screen>
             </>
           )}
