@@ -7,17 +7,14 @@ import {
 } from "react-native";
 import { useState, useContext } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import BouncyCheckbox from "react-native-bouncy-checkbox";
+
 import { httpService } from "../services/httpService";
-import { ErrorAlerts } from "../components/MyAlerts";
+
 import { LoginContext } from "../contexts/LoginContext";
 import {
   Button,
   Text,
   Snackbar,
-  Dialog,
-  DialogHeader,
-  DialogActions,
   ActivityIndicator,
   TextInput,
   IconButton,
@@ -33,7 +30,7 @@ function SignUpScreen({ navigation }) {
 
   const [signUpData, setSignUpData] = useState({});
 
-  const [showDialog, setShowDialog] = useState(false);
+  const { setToken } = useContext(LoginContext);
 
   const signUp = async () => {
     setLoading(true);
@@ -44,7 +41,13 @@ function SignUpScreen({ navigation }) {
         setErrorMessage(res.message);
       }
       if (res.data) {
-        console.log(res.data);
+        setToken(res.data.accessToken);
+        await AsyncStorage.setItem("token", res.data.accessToken);
+        await AsyncStorage.setItem(
+          "userData",
+          JSON.stringify(res.data.account)
+        );
+        navigation.navigate("Home");
       }
     }
     setLoading(false);
