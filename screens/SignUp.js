@@ -37,7 +37,6 @@ function SignUpScreen({ navigation }) {
     const res = await httpService.post("mobile-signup", signUpData);
     if (res) {
       if (res.type) {
-        console.log(res);
         setErrorMessage(res.message);
       }
       if (res.data) {
