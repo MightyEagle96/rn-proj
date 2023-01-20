@@ -2,6 +2,7 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import { StyleSheet } from "react-native";
 
@@ -17,6 +18,7 @@ const Stack = createNativeStackNavigator();
 
 const Drawer = createDrawerNavigator();
 
+const Tab = createBottomTabNavigator();
 function MyNavigation() {
   const [token, setToken] = useState(null);
 
@@ -33,11 +35,16 @@ function MyNavigation() {
     <LoginContext.Provider value={{ token, setToken }}>
       {token ? (
         <NavigationContainer>
-          <Drawer.Navigator initialRouteName="Home">
+          <Tab.Navigator initialRouteName="Home">
             {AllScreens.map((c, i) => (
-              <Drawer.Screen name={c.name} component={c.component} key={i} />
+              <Tab.Screen
+                name={c.name}
+                component={c.component}
+                key={i}
+                options={{ headerShown: false }}
+              />
             ))}
-          </Drawer.Navigator>
+          </Tab.Navigator>
         </NavigationContainer>
       ) : (
         <NavigationContainer>
