@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from "react";
 import { View, StyleSheet, ImageBackground, FlatList } from "react-native";
 
@@ -41,7 +42,7 @@ function HomeScreen({ navigation }) {
         </Text>
         <Divider style={{ marginTop: 10, marginBottom: 10 }} />
       </View>
-      <View>
+      <View style={{ paddingHorizontal: 10 }}>
         <FlatList
           data={hotelPlans}
           renderItem={(itemData) => (
@@ -57,7 +58,6 @@ export default HomeScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
   },
   imgBackground: {
     height: 300,
