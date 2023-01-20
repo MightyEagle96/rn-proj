@@ -1,14 +1,28 @@
+import React from "react";
 import Bookings from "./Bookings";
-
 import HomeScreenNavigation from "./HomeScreenNavigation/HomeScreenNavigation";
 import LoginScreen from "./Login";
 import Settings from "./Settings";
 import SignUpScreen from "./SignUp";
 
+import { Ionicons } from "@expo/vector-icons";
+
 const AllScreens = [
-  { name: "Home", component: HomeScreenNavigation },
-  { name: "Bookings", component: Bookings },
-  { name: "Settings", component: Settings },
+  {
+    name: "Home",
+    component: HomeScreenNavigation,
+    tabIcon: () => <Ionicons name="home" size={20} color="#1976d2" />,
+  },
+  {
+    name: "Bookings",
+    component: Bookings,
+    tabIcon: () => <Ionicons name="pencil" size={20} color="#1976d2" />,
+  },
+  {
+    name: "Settings",
+    component: Settings,
+    tabIcon: () => <Ionicons name="settings" size={20} color="#1976d2" />,
+  },
 ];
 
 const AuthScreens = [

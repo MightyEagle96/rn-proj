@@ -9,7 +9,7 @@ function HotelTypeItem({ data, navigation }) {
       <Pressable
         android_ripple={{ color: "#bdbdbd" }}
         style={{ flexDirection: "row", alignItems: "center" }}
-        onPress={() => navigation.navigate("Payments")}
+        onPress={() => navigation.navigate("HotelScreen", data.item)}
       >
         <Avatar
           size={80}

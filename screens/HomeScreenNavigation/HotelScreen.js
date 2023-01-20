@@ -1,10 +1,22 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text } from "react-native";
 
-function HotelScreen() {
+function HotelScreen({ route, navigation }) {
+  const [data, setData] = useState(null);
+  useEffect(() => {
+    const { params } = route;
+
+    setData(params);
+
+    navigation.setOptions({ title: params.type });
+  }, []);
   return (
     <View>
-      <Text>HELLO WORLD</Text>
+      {data ? (
+        <View>
+          <Text>HELLo</Text>
+        </View>
+      ) : null}
     </View>
   );
 }

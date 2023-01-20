@@ -30,6 +30,7 @@ const allScreens = [
     component: HomeScreen,
     // tabBarIcon: () => <Ionicons name="home-outline" size={20} color="black" />,
   },
+  { name: "HotelScreen", component: HotelScreen },
   {
     name: "Payments",
     component: Payments,

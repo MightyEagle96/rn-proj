@@ -41,7 +41,7 @@ function MyNavigation() {
                 name={c.name}
                 component={c.component}
                 key={i}
-                options={{ headerShown: false }}
+                options={{ headerShown: false, tabBarIcon: c.tabIcon }}
               />
             ))}
           </Tab.Navigator>
