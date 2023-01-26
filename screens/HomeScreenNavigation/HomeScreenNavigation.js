@@ -3,7 +3,6 @@ import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomeScreen from "./HomeScreen";
 import HotelScreen from "./HotelScreen";
-import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import Payments from "./Payments";
 
 const Stack = createNativeStackNavigator();
@@ -26,9 +25,8 @@ export default HomeScreenNavigation;
 
 const allScreens = [
   {
-    name: "Home",
+    name: "HomeScreen",
     component: HomeScreen,
-    // tabBarIcon: () => <Ionicons name="home-outline" size={20} color="black" />,
   },
   { name: "HotelScreen", component: HotelScreen },
   {

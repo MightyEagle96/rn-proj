@@ -5,7 +5,7 @@ import { View, StyleSheet, ImageBackground, FlatList } from "react-native";
 import { Text, Divider } from "@react-native-material/core";
 
 import HotelTypeItem from "./HotelTypeItem";
-import { hotelPlans } from "../AllScreens";
+import { hotelPlans } from "../../data/hotelProject";
 
 function HomeScreen({ navigation }) {
   return (

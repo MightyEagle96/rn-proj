@@ -35,7 +35,7 @@ function MyNavigation() {
     <LoginContext.Provider value={{ token, setToken }}>
       {token ? (
         <NavigationContainer>
-          <Tab.Navigator initialRouteName="Home">
+          <Tab.Navigator>
             {AllScreens.map((c, i) => (
               <Tab.Screen
                 name={c.name}
