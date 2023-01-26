@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect } from "react";
 import { View, ImageBackground, StyleSheet } from "react-native";
-import { Button, Text, Surface } from "@react-native-material/core";
+import { Button, Text, Surface, Pressable } from "@react-native-material/core";
 import { MaterialIcons } from "@expo/vector-icons";
 
 function HotelScreen({ route, navigation }) {
@@ -44,40 +44,26 @@ function HotelScreen({ route, navigation }) {
             <View style={{ marginTop: 20 }}>
               {data.rates.map((c, i) => (
                 // <Text>{c.name}</Text>
-                <Surface
+                <Pressable
+                  pressEffect="ripple"
+                  onPress={() => navigation.navigate("Payments")}
                   key={i}
-                  elevation={2}
-                  category="medium"
                   style={{
-                    padding: 15,
-                    marginBottom: 15,
-                    justifyContent: "space-between",
                     flexDirection: "row",
+                    justifyContent: "space-between",
                     alignItems: "center",
+                    borderWidth: 1,
+                    marginBottom: 10,
+                    padding: 15,
+                    borderRadius: 5,
+                    borderColor: "#bdbdbd",
                   }}
                 >
                   <Text>{c.name}</Text>
-                  <Button
-                    title={`$${c.price.toLocaleString()}.00`}
-                    variant="text"
-                    color="#2196f3"
-                    trailing={() => (
-                      <MaterialIcons name="payment" size={24} color="#2196f3" />
-                    )}
-                  />
-                </Surface>
+                  <Text>{`$${c.price.toLocaleString()}.00`}</Text>
+                </Pressable>
               ))}
             </View>
-            {/* <View style={{ marginTop: 20 }}>
-              <Button
-                title="Pay now"
-                variant="text"
-                color="#2196f3"
-                trailing={() => (
-                  <MaterialIcons name="payment" size={24} color="#2196f3" />
-                )}
-              />
-            </View> */}
           </View>
         </View>
       ) : null}
